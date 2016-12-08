@@ -21,19 +21,30 @@ tbody = Nokogiri::HTML.parse(html, nil, charset)
 # p tbody
 tbody.xpath('//*[@id="col_main"]/article[2]/div/table/tbody').each do |node|
   #puts node.search('tr').text
-  #current_month = ""
+  current_month = ""
   node.search("tr").each do |tr|
-    puts tr
-    puts tr.search("td").text
-    #tds = tr.search("td")
-    #if tds.length == 9 or tds.length == 10 then
-    #  if tds[1] != current_month then
-    #    tds.map |m| m.value
-    #    #csv << tds.map |m| m.value
-    #  end
-    #else
-    #  abort
-    #end
+    #puts tr.search("td").text
+    tds = tr.search("td")
+
+    # this is test part ###############
+    puts "length = #{tds.length}"
+    puts "tds[1] = #{tds[1].text}"
+    tds.each do |m|
+      puts m.text
+    end
+    ####################################
+
+    if tds.length == 9 or tds.length == 10 then
+      puts "length = #{tds.length}"
+      if tds[1].text != current_month or tds[1].text != current_month.text then
+        puts "#{tds[0].text}.#{tds[1].text}.#{tds[2].text}"
+    #    #puts tds.map |m| m.text
+    #    csv << tds.map |m| m.text
+      end
+    else
+      abort
+    end
+    current_month = tds[1]
   end
 end
 
