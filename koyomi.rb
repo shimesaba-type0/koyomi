@@ -19,6 +19,7 @@ end
 
 tbody = Nokogiri::HTML.parse(html, nil, charset)
 # p tbody
+month_count = 0
 tbody.xpath('//*[@id="col_main"]/article[2]/div/table/tbody').each do |node|
   #puts node.search('tr').text
   current_month = ""
@@ -27,26 +28,37 @@ tbody.xpath('//*[@id="col_main"]/article[2]/div/table/tbody').each do |node|
     tds = tr.search("td")
 
     # this is test part ###############
-    puts "length = #{tds.length}"
-    puts "tds[1] = #{tds[1].text}"
-    tds.each do |m|
-      puts m.text
-    end
+    #puts "length = #{tds.length}"
+    #puts "tds[1] = #{tds[1].text}"
+    #tds.each do |m|
+    #  puts m.text
+    #end
     ####################################
 
     if tds.length == 9 or tds.length == 10 then
-      puts "length = #{tds.length}"
-      if tds[1].text != current_month or tds[1].text != current_month.text then
+      #puts "length = #{tds.length}"
+      #puts "current_month = #{current_month}"
+      #puts "tds[1] = #{tds[1].text}"
+      if tds[1].text != current_month then
+        puts "-------------------------------------"
         puts "#{tds[0].text}.#{tds[1].text}.#{tds[2].text}"
+        puts "-------------------------------------"
     #    #puts tds.map |m| m.text
     #    csv << tds.map |m| m.text
+        #datalists = CSV.open()
+        #  datalists.puts [tds[0].text, tds[1].text, tds[2].text]
+        #datalists.close
+        month_count = month_count + 1
       end
     else
       abort
     end
-    current_month = tds[1]
+    current_month = tds[1].text
   end
 end
+
+puts month_count
+
 
 # html = url
 # tbody = Nokogiri::HTML.parse(html, '//*[@id="col_main"]/article[2]/div/table/tbody')
