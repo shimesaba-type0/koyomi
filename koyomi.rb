@@ -33,19 +33,22 @@ urls.each do |url_year|
     # tr をserachしてtrの分だけループ
     node.search(".//tr").each do |tr|
       tds = tr.search(".//td")
-      # 本当にlength が9と10だけ？違ったらabort
-      if tds.length == 9 or tds.length == 10 then
-        # tds[5].text の中に word の文字列が含まれているか。
-        # 月節が含まれていれば、その行は節入り日を表している。
-        if tds[5].text.include?(word) then
-          # arr に節入り日を入れて、CSVにわざわざしている。
-          # 理由はまだない。
-          arr.push(tds[2].text)
-          csv << arr.to_csv
+      if tds[0].text != 1900 then
+        # 本当にlength が9と10だけ？違ったらabort
+        if tds.length == 9 or tds.length == 10 then
+          # tds[5].text の中に word の文字列が含まれているか。
+          # 月節が含まれていれば、その行は節入り日を表している。
+          if tds[5].text.include?(word) then
+            #puts "#{tds[0].text}.#{tds[1].text}.#{tds[2].text}"
+            # arr に節入り日を入れて、CSVにわざわざしている。
+            # 理由はまだない。
+            arr.push(tds[2].text)
+            csv << arr.to_csv
+          end
+        else
+          puts "error record is: #{tds.text}"
+          abort
         end
-      else
-        puts "error record is: #{tds.text}"
-        abort
       end
     end
   end
