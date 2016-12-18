@@ -13,7 +13,6 @@ urls = ["1910", "1920", "1930", "1940", "1950", "1960", "1970", \
 # initializing 
 csv = ""
 word = "月節"
-arr = Array.new()
 
 # 10年単位でページが作られているので、そのページ分ループ
 urls.each do |url_year|
@@ -32,6 +31,7 @@ urls.each do |url_year|
   tbody.xpath('//*[@id="col_main"]/article[2]/div/table/tbody').each do |node|
     # tr をserachしてtrの分だけループ
     node.search(".//tr").each do |tr|
+      arr = Array.new()
       tds = tr.search(".//td")
       if tds[0].text != 1900 then
         # 本当にlength が9と10だけ？違ったらabort
